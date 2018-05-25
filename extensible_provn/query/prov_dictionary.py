@@ -1,8 +1,6 @@
 """Incomplete file with only the predicates we use in our mappings"""
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
-from tools.query.provn import *
+# pylint: disable=W0614
+from .provn import *
 
 @querier.prov("derivedByInsertionFrom", ["generated", "used", "changes", "text"])
 def derivedByInsertionFrom(dot, dgen=None, duse=None, changes=None, attrs=None, id_=None):

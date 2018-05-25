@@ -1,9 +1,8 @@
 """Incomplete file with only the predicates we use in our mappings"""
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
-from tools.query.prov_dictionary import *
-from tools.utils import parsetime, unquote
+# pylint: disable=E0102
+# pylint: disable=W0614
+from .prov_dictionary import *
+from ..utils import parsetime, unquote
 
 @querier.prov("entity", ["id", "checkpoint", "type", "text"])
 def entity(querier, eid, attrs={}, id_=None):

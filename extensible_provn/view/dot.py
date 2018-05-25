@@ -1,5 +1,3 @@
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
 import argparse
 import sys
 import importlib
@@ -93,7 +91,11 @@ class Digraph(object):
 
     def set_style(self, name, *args):
         if isinstance(name, str):
-            module = importlib.import_module('.view.style.' + name, package="extensible_provn")
+            try:
+                module = importlib.import_module(name)
+            except ImportError:
+                module = importlib.import_module('.view.style.' + name, package="extensible_provn")
+
             importlib.reload(module)
             cls = module.EXPORT
         else:

@@ -1,10 +1,7 @@
 """Incomplete file with only the predicates we use in our mappings"""
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
 import dateutil.parser
-from tools.query.querier import querier, var, BLANK
-from tools.utils import parsetime
+from .querier import querier, var, BLANK
+from ..utils import parsetime
 
 
 @querier.prov("entity", ["id", "text"])

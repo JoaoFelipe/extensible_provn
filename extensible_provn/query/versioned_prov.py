@@ -1,9 +1,8 @@
 """Incomplete file with only the predicates we use in our mappings"""
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
-from tools.query.provn import *
-from tools.utils import unquote, parsetime
+# pylint: disable=E0102
+# pylint: disable=W0614
+from .provn import *
+from ..utils import unquote, parsetime
 
 
 @querier.prov("wasDerivedFrom", ["generated", "used", "activity", "generation", "use", "type", "checkpoint", "collection", "key", "access", "attrs", "text"])

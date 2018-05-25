@@ -1,8 +1,12 @@
 import inspect
 from collections import OrderedDict, defaultdict
 from copy import copy
-from itertools import chain, product, zip_longest
+from itertools import chain, product
 
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
 
 class Blank(object):
     """Singleton object to represent _"""

@@ -70,3 +70,12 @@ def was_generated_by(dot, aid, eid=None, time=None, attrs=None, id_=None):
     if checkpoint:
         return dot.arrow2(attrs, "int_wasGeneratedBy", aid, eid, "gen\n{}".format(checkpoint))
     return dot.arrow2(attrs, "wasGeneratedBy", aid, eid, "gen")
+
+
+def _main():
+    """Main function"""
+    graph.main()
+
+
+if __name__ == "__main__":
+    _main()

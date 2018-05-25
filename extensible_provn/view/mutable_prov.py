@@ -1,6 +1,7 @@
 from .provn import graph
 from ..utils import unquote
 
+
 @graph.prov("value")
 def value(dot, vid, attrs=None, id_=None):
     return dot.node(attrs, "value", vid)
@@ -67,5 +68,11 @@ def derived_by_removal(dot, eid=None, wid=None, positions=None, time=None, attrs
     return "\n".join(result)
 
 
-if __name__ == "__main__":
+def _main():
+    """Main function"""
     graph.main()
+
+
+if __name__ == "__main__":
+    _main()
+

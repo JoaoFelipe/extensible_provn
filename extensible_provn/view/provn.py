@@ -9,6 +9,7 @@ def prov(attrs, key, default="-"):
     except KeyError:
         return default
 
+
 @graph.before
 def _before(dot):
     dot.used = set()
@@ -154,7 +155,10 @@ def bundle(dot, name, declarations, elements):
     return "\n".join(lines)
 
 
+def _main():
+    """Main function"""
+    graph.main()
 
 
 if __name__ == "__main__":
-    graph.main()
+    _main()

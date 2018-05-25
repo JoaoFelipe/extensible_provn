@@ -1,9 +1,7 @@
 """Incomplete file with only the predicates we use in our mappings"""
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
-from tools.query.provn import *
-from tools.utils import parsetime
+# pylint: disable=W0614
+from .provn import *
+from ..utils import parsetime
 
 
 @querier.prov("value", ["id", "text"])

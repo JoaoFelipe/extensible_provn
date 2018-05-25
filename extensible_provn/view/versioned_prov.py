@@ -3,11 +3,13 @@ from .provn import graph, prov
 NAMESPACE = "https://dew-uff.github.io/versioned-prov/ns#"
 CKPT = "ckpt: "
 
+
 def versioned(attrs, key, default="-"):
     try:
         return attrs[(key, "version", "v", NAMESPACE)]
     except KeyError:
         return default
+
 
 def ns_versioned(key):
     return {
@@ -96,6 +98,7 @@ def used(dot, aid, eid=None, time=None, attrs=None, id_=None):
         return dot.arrow2(attrs, "ver_used", aid, eid, "use\n{}{}".format(CKPT, checkpoint))
     return dot.arrow2(attrs, "used", aid, eid, "use")
 
+
 @graph.prov("wasGeneratedBy")
 def was_generated_by(dot, aid, eid=None, time=None, attrs=None, id_=None):
     dot.used.add((aid, eid))
@@ -103,3 +106,12 @@ def was_generated_by(dot, aid, eid=None, time=None, attrs=None, id_=None):
     if checkpoint:
         return dot.arrow2(attrs, "ver_wasGeneratedBy", aid, eid, "gen\n{}{}".format(CKPT, checkpoint))
     return dot.arrow2(attrs, "wasGeneratedBy", aid, eid, "gen")
+
+
+def _main():
+    """Main function"""
+    graph.main()
+
+
+if __name__ == "__main__":
+    _main()

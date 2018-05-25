@@ -4,14 +4,11 @@
 # Please, consult the license terms in the LICENSE file.
 """Pattern Matching Machinery"""
 # pylint: disable=invalid-name
-if __name__ == "__main__":
-    import sys; sys.path.insert(0, '../..')
-
 from collections import defaultdict, OrderedDict, Iterable
 from functools import wraps
 
-from tools.query.pattern_machinery import create_rule, var, BLANK, BoundQuery, Variable, NullQuery
-from tools.prov_parser import build_parser, prov
+from .pattern_machinery import create_rule, var, BLANK, BoundQuery, Variable, NullQuery
+from ..prov_parser import build_parser, prov
 
 class ProvQuery(BoundQuery):
     """Call rules function for all possibilities of unbound_options"""
@@ -186,6 +183,11 @@ class Querier(object):
             new_args = new_args + [text]
         part2 = ", ".join(new_args)
         return "{}({}{})".format(name, part1, part2)
+
+    def load_text(self, text):
+        for rule in self.rules:
+            rule.reset()
+        return self.generate(text)
 
     def load(self, name):
         for rule in self.rules:

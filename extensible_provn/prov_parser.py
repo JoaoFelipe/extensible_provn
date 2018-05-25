@@ -3,7 +3,6 @@
 It does not comply completely with PROV-N.
 It was designed to support only the situations we use in this repository in an extensible way.
 """
-
 from collections import namedtuple
 
 from lark import Lark, Transformer

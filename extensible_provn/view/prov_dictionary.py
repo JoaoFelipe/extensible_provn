@@ -35,5 +35,11 @@ def derived_by_removal_from(dot, dgen=None, duse=None, removals=None, attrs=None
     )
     return dot.arrow2(attrs, "derivedByRemovalFrom", dgen, duse, "der-rem\n{}".format(tremovals))
 
-if __name__ == "__main__":
+
+def _main():
+    """Main function"""
     graph.main()
+
+
+if __name__ == "__main__":
+    _main()
