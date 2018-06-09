@@ -1,13 +1,12 @@
 import argparse
 import sys
 import importlib
-import html
 
 from copy import copy
 from functools import wraps
 
 from ..prov_parser import build_parser, prov
-from ..utils import unquote
+from ..utils import unquote, escape, reload_module
 from .style import default
 
 
@@ -43,7 +42,7 @@ class PrefixDict(dict):
         if isinstance(item, str):
             yield item
 
-        item, *namespace = item
+        item, namespace = item[0], item[1:]
         for name in namespace:
             if name == "<any>":
                 for _, prefix in self.rprefixes.items():
@@ -96,7 +95,7 @@ class Digraph(object):
             except ImportError:
                 module = importlib.import_module('.view.style.' + name, package="extensible_provn")
 
-            importlib.reload(module)
+            reload_module(module)
             cls = module.EXPORT
         else:
             cls = name.EXPORT
@@ -187,8 +186,13 @@ class Digraph(object):
             )
         return '"{}"{}'.format(name, extra)
 
-    def _arrow(self, *nodes, attrs={}, direction="->"):
-        """Create dot node"""
+    def _arrow(self, *nodes, **kwargs):
+        """Create dot node
+
+        Valid kwargs: attrs={}, direction="->"
+        """
+        attrs = kwargs.get("attrs", {})
+        direction = kwargs.get("direction", "->")
         extra = ""
         if attrs:
             extra = " [{}]".format(
@@ -212,8 +216,8 @@ class Digraph(object):
                 '<<TABLE cellpadding="0" border="0">'
             ]
             for key, value in valid_attrs:
-                key = self.style.htmlcolor(html.escape(key + ":"), attrs)
-                value = self.style.htmlcolor(html.escape(value), attrs)
+                key = self.style.htmlcolor(escape(key + ":"), attrs)
+                value = self.style.htmlcolor(escape(value), attrs)
                 label.append('\t<TR>')
                 label.append('\t    <TD align="left">{}</TD>'.format(key))
                 label.append('\t    <TD align="left">{}</TD>'.format(value))

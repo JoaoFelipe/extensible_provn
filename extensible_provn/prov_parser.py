@@ -3,6 +3,7 @@
 It does not comply completely with PROV-N.
 It was designed to support only the situations we use in this repository in an extensible way.
 """
+import sys
 from collections import namedtuple
 
 from lark import Lark, Transformer
@@ -36,7 +37,7 @@ def eq(self, other):
 
 Tree.__eq__ = eq
 '''
-PARSER = Lark('''
+PARSER = Lark(u'''
     start: document
 
     document: "document" optional_declarations (expr)* (bundle)* "endDocument"
@@ -59,7 +60,7 @@ PARSER = Lark('''
        | expr
        | tuple
 
-    tuple: "{" arg ("," arg )* "}"
+    tuple: "{{" arg ("," arg )* "}}"
          | "(" arg ("," arg )* ")"
 
 
@@ -104,7 +105,7 @@ PARSER = Lark('''
                  | "\u3001".."\uD7FF"
                  | "\uF900".."\uFDCF"
                  | "\uFDF0".."\uFFFD"
-                 | "\U00010000".."\U000EFFFF"
+                 {}
     PN_CHARS: PN_CHARS_U
             | "-"
             | ":"
@@ -125,7 +126,7 @@ PARSER = Lark('''
     %import common.WS
     %ignore COMMENT
     %ignore WS
-''', lexer='standard')
+'''.format(u'| "\U00010000".."\U000EFFFF"' if sys.version_info > (3, 0) else ""), lexer='standard')
 
 # (\d{4}-\d\d-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)
 
@@ -225,14 +226,16 @@ class CallProvN(Transformer):
         return elements[0].value
 
     def bundle(self, elements):
-        name, declarations, *expressions = elements
+        name, declarations, expressions = elements[0], elements[1], elements[2:]
         name = name.value
         if "bundle" in self.functions:
             return self.functions["bundle"](name, declarations, expressions)
         return self.functions["<warning>"]("bundle", name, declarations, expressions)
 
 
-def _warning(name, *args, id_=None, attrs=None):
+def _warning(name, *args, **kwargs):
+    id_ = kwargs.get("id_", None)
+    attrs = kwargs.get("attrs", None)
     print("WARNING: '{}' is not defined!".format(name))
 
 import re

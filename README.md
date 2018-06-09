@@ -160,6 +160,7 @@ def entlist(dot, *args, attrs=None, id_=None):
 if __name__ == "__main__":
     graph.main()
 ```
+Note: This code is valid for Python 3. Some changes are required for Python 2.
 
 The `graph.main()` adds the default CLI to this extension.
 

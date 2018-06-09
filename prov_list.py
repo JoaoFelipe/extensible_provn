@@ -15,7 +15,9 @@ from extensible_provn.view import provn  # Use Plain PROV as base
 from extensible_provn.view.dot import graph
 
 @graph.prov("entlist")
-def entlist(dot, *args, attrs=None, id_=None):
+def entlist(dot, *args, **kwargs):
+    attrs = kwargs.get("attrs", None)
+    id_ = kwargs.get("id_", None)
     lines = [dot.node(attrs, "entity", id_)]
     for entity_id in args:
         lines.append(dot.node(attrs, "entity", entity_id))

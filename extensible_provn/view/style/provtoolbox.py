@@ -1,9 +1,8 @@
-import html
 from collections import OrderedDict
 from functools import partial
 from ...utils import parsetime
 
-class ProvToolboxStyle:
+class ProvToolboxStyle(object):
 
     def __init__(self):
         self.qualified_attr = False
