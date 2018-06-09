@@ -1,3 +1,5 @@
+import subprocess
+import sys
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 # To use a consistent encoding
@@ -7,11 +9,38 @@ from os import path
 with open('README.md', 'r') as f:
 	long_description = f.read()
 
+
+def get_version():
+    """Use git describe to get version from tag"""
+    proc = subprocess.Popen(
+        ("git", "describe", "--tag", "--always"),
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
+    output, _ = proc.communicate()
+    result = output.decode("utf-8").strip()
+    if proc.returncode != 0:
+        sys.stderr.write(
+            ">>> Git Describe Error:\n    " +
+            result
+        )
+        return "1+unknown"
+    split = result.split("-", 1)
+    version = "+".join(split).replace("-", ".")
+
+    if len(split) > 1:
+        sys.stderr.write(
+            ">>> Please verify the commit tag:\n    " +
+            version + "\n"
+        )
+    return version
+
+
 setup(
     name='extensible_provn',
-    version='0.0.1',
+    version=get_version(),
     description='Extensible PROV-N visualizer and querier',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     packages=find_packages(exclude=['tests_*', 'tests']),
     entry_points={
         'console_scripts': [
