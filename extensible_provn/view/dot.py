@@ -6,7 +6,7 @@ from copy import copy
 from functools import wraps
 
 from ..prov_parser import build_parser, prov
-from ..utils import unquote, reload_module
+from ..utils import unquote, reload_module, version
 from .style import default
 
 
@@ -284,6 +284,8 @@ class Digraph(object):
                         help='Graph rankdir')
         parser.add_argument('-s', '--style', type=str, default="default",
                         help='Graph style')
+        parser.add_argument("-v", "--version", action="version",
+                        version="extensible_provn {}".format(version()))
 
         args = parser.parse_args([
             ("-" if x.startswith("-") and not x.startswith("--") and len(x) > 2 else "") + x

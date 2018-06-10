@@ -1,6 +1,12 @@
 import dateutil.parser
 import sys
 
+from pkg_resources import resource_string, resource_listdir, resource_isdir
+
+MODULE = __name__
+MODULE = MODULE[:MODULE.rfind(".")]
+
+
 try:
     from html import escape
     from importlib import reload as reload_module
@@ -41,3 +47,13 @@ def parsetime(time):
     except ValueError:
         return None
 
+
+def resource(filename, encoding=None):
+    """Access resource content via setuptools"""
+    content = resource_string(MODULE, filename)
+    if encoding:
+        return content.decode(encoding=encoding)
+    return content
+
+def version():
+    return resource("resources/version.txt", encoding="utf-8").strip()

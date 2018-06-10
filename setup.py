@@ -1,16 +1,20 @@
 import subprocess
 import sys
-# Always prefer setuptools over distutils
+import os
 from setuptools import setup, find_packages
-# To use a consistent encoding
 from codecs import open
 from os import path
 
-with open('README.md', 'r') as f:
-	long_description = f.read()
+
+def recursive_path(pack, path):
+    matches = []
+    for root, _, filenames in os.walk(os.path.join(pack, path)):
+        for filename in filenames:
+            matches.append(os.path.join(root, filename)[len(pack) + 1:])
+    return matches
 
 
-def get_version():
+def get_version(*save_path):
     """Use git describe to get version from tag"""
     proc = subprocess.Popen(
         ("git", "describe", "--tag", "--always"),
@@ -32,16 +36,27 @@ def get_version():
             ">>> Please verify the commit tag:\n    " +
             version + "\n"
         )
+
+    if save_path:
+        with open(path.join(*save_path), "w") as fil:
+            fil.write(version)
     return version
+
+
+with open('README.md', 'r') as f:
+	long_description = f.read()
 
 
 setup(
     name='extensible_provn',
-    version=get_version(),
+    version=get_version("extensible_provn", "resources", "version.txt"),
     description='Extensible PROV-N visualizer and querier',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(exclude=['tests_*', 'tests']),
+    package_data={
+        "extensible_provn": recursive_path("extensible_provn", "resources"),
+    },
     entry_points={
         'console_scripts': [
             "provn=extensible_provn.view.provn:_main",
