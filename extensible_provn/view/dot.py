@@ -6,7 +6,7 @@ from copy import copy
 from functools import wraps
 
 from ..prov_parser import build_parser, prov
-from ..utils import unquote, escape, reload_module
+from ..utils import unquote, reload_module
 from .style import default
 
 
@@ -206,7 +206,7 @@ class Digraph(object):
         """Create attrs node and associate it with a url"""
         result = ""
         valid_attrs = [
-            self.style.change_attr(key, value)
+            self.style.change_attr(key, value, attrs)
             for key, value in attrs.items()
             if self.style.filter_attr(key, value, attrs)
         ]
@@ -216,8 +216,6 @@ class Digraph(object):
                 '<<TABLE cellpadding="0" border="0">'
             ]
             for key, value in valid_attrs:
-                key = self.style.htmlcolor(escape(key + ":"), attrs)
-                value = self.style.htmlcolor(escape(value), attrs)
                 label.append('\t<TR>')
                 label.append('\t    <TD align="left">{}</TD>'.format(key))
                 label.append('\t    <TD align="left">{}</TD>'.format(value))

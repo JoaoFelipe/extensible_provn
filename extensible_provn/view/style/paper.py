@@ -10,6 +10,8 @@ class DotPaper(DotSpecific):
         self.node_labelsize = "36"
         self.tail_labelsize = "30"
         self.attrs_labelsize = "24"
+        self.use_parsetime = True
+        self.hide_namespace = True
 
         self.specific2 = "#800000"
         self.specific1 = "#ffe6e6"

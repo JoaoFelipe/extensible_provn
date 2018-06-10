@@ -1,7 +1,7 @@
 from .default import DefaultStyle
 from .nohighlight import NoHighlightStyle
 
-class DotMixin:
+class DotMixin(object):
 
     def __init__(self, *args, **kwargs):
         super(DotMixin, self).__init__(*args, **kwargs)

@@ -5,6 +5,8 @@ class NoHighlightStyle(ProvToolboxStyle):
 
     def __init__(self):
         super(NoHighlightStyle, self).__init__()
+        self.use_parsetime = False
+        self.hide_namespace = False
         self.qualified_attr = True
         self.labelsize = "14"
         self.join(self.style, {

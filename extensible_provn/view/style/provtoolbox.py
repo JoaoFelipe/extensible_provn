@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from ...utils import parsetime
+from ...utils import parsetime, unquote, escape
 
 class ProvToolboxStyle(object):
 
@@ -8,6 +8,8 @@ class ProvToolboxStyle(object):
         self.qualified_attr = False
         self.tail_labelsize = "8"
         self.attrs_labelsize = "10"
+        self.use_parsetime = True
+        self.hide_namespace = True
         self.style = {
             "node_after": self.after_node,
             "label": self.taillabel,
@@ -137,14 +139,25 @@ class ProvToolboxStyle(object):
     def htmlcolor(self, element, attrs):
         return element
 
-    def change_attr(self, key, value):
+    def change_attr(self, key, value, attrs):
         key = key.split(":", maxsplit=1)[-1]
-        tvalue = parsetime(value)
-        if tvalue:
-            value = str(tvalue)
+        if self.use_parsetime:
+            tvalue = parsetime(value)
+            if tvalue:
+                value = str(tvalue)
+            elif self.hide_namespace:
+                value = value.split(":", maxsplit=1)[-1]
         else:
-            value = value.split(":", maxsplit=1)[-1]
-        return key, value
+            value = str(value)
+            if self.hide_namespace:
+                value = value.split(":", maxsplit=1)[-1]
+        return (
+            self.htmlcolor(escape(key + ":"), attrs),
+            self.htmlcolor(
+                escape(value)
+                .replace("\\n", "<br/>")
+                .replace("\\<br/>", "\\\\n"), attrs)
+        )
 
     def join(self, new, *dicts):
         for dic in dicts:
