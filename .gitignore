@@ -1,5 +1,5 @@
 # Version file
-/extensible_provn/resources/version.txt
+extensible_provn/resources/version.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
