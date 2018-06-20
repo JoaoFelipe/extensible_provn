@@ -100,12 +100,12 @@ def used(dot, aid, eid=None, time=None, attrs=None, id_=None):
 
 
 @graph.prov("wasGeneratedBy")
-def was_generated_by(dot, aid, eid=None, time=None, attrs=None, id_=None):
-    dot.used.add((aid, eid))
+def was_generated_by(dot, eid, aid=None, time=None, attrs=None, id_=None):
+    dot.generated.add((eid, aid))
     checkpoint = versioned(attrs, 'checkpoint', False)
     if checkpoint:
-        return dot.arrow2(attrs, "ver_wasGeneratedBy", aid, eid, "gen\n{}{}".format(CKPT, checkpoint))
-    return dot.arrow2(attrs, "wasGeneratedBy", aid, eid, "gen")
+        return dot.arrow2(attrs, "ver_wasGeneratedBy", eid, aid, "gen\n{}{}".format(CKPT, checkpoint))
+    return dot.arrow2(attrs, "wasGeneratedBy", eid, aid, "gen")
 
 
 def _main():

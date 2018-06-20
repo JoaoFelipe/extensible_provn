@@ -58,7 +58,7 @@ class DotPaper(DotSpecific):
                 part1 = '<font color="{}">{}</font>'.format(color, split[0])
                 part2 = ""
                 if len(split) > 1:
-                    part2 = "".join(split[1:]).replace("\n", "<br/>").replace(" ", "&nbsp;")
+                    part2 = "".join(split[1:]).replace("\n", "<br/>")
                     part2 = '<font color="{}">{}</font>'.format(self.specific2, part2)
                 label = ("<{}{}>".format(part1, part2))
             else:
