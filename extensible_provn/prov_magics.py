@@ -4,6 +4,7 @@ import platform
 import errno
 import sys
 import os
+import io
 import tempfile
 from collections import OrderedDict, deque
 
@@ -153,10 +154,10 @@ class DotDisplay(object):
             if not mime:
                 print("Invalid format {} for {}".format(format, filename))
                 continue
-            mode = "w"
+            mode, encoding = "w", "utf-8"
             if mime in {"image/png", "application/pdf"}:
-                mode = "wb"
-            with open(filename, mode) as file:
+                mode, encoding = "wb", None
+            with io.open(filename, mode, encoding=encoding) as file:
                 file.write(result[mime])
 
     def display_result(self):
